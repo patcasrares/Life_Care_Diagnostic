@@ -1,0 +1,36 @@
+{
+  "name": "create-next-app-default",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "extendable-media-recorder": "^6.5.17",
+    "extendable-media-recorder-wav-encoder": "^7.0.66",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^2.5.1",
+    "media-recorder-js": "^2.1.0",
+    "mic-recorder-to-mp3": "^2.2.2",
+    "next": "^11.0.1",
+    "next-use-contextual-routing": "^2.1.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-icons": "^4.3.1",
+    "react-media-recorder": "^1.6.3",
+    "react-select": "^5.3.1",
+    "react-webcam": "^6.0.1"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.3.1",
+    "postcss": "^8.3.6",
+    "tailwindcss": "^2.2.7"
+  }
+}
