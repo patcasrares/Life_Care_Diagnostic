@@ -5,6 +5,58 @@ import SidebarCategory from '../components/sidebarCategory';
 
 const faceapi = require('../utils/face-api.min.js')
 
+const takePhoto = () => {
+  const video = document.getElementById('video');
+  if (!video) return;
+
+  const canvas = createCanvas();
+  drawImageToCanvas(canvas, video);
+  const image_base64 = getImageBase64(canvas);
+  const file = createBlob(image_base64);
+  const formData = createFormData(file);
+
+  axios.post(BASE_URL, formData).then(response => {
+    setVerdict(response.data)
+  }).catch(error => {
+    console.log(error)
+  });
+};
+
+const createCanvas = () => {
+  const canvas = document.createElement('canvas');
+  canvas.width = 1224;
+  canvas.height = 768;
+  canvas.style.zIndex = 8;
+  canvas.style.position = "absolute";
+  canvas.style.border = "1px solid";
+  return canvas;
+};
+
+const drawImageToCanvas = (canvas, image) => {
+  canvas.getContext('2d').drawImage(image, 0, 0, canvas.width, canvas.height);
+};
+
+const getImageBase64 = (canvas) => {
+  return canvas.toDataURL().replace(/^data:image\/png;base64,/, "");
+};
+
+const createBlob = (base64String) => {
+  const blobBin = atob(base64String);
+  const array = new Uint8Array(blobBin.length);
+  for (let i = 0; i < blobBin.length; i++) {
+    array[i] = blobBin.charCodeAt(i);
+  }
+  return new Blob([array], { type: 'image/png' });
+};
+
+const createFormData = (file) => {
+  const formData = new FormData();
+  formData.append('face', file);
+  formData.append('from', 'frontend');
+  return formData;
+};
+
+
 function App() {
 
   const BASE_URL = "http://localhost:5000/face"
@@ -14,48 +66,6 @@ function App() {
   var vd=null;
   const [play, setPlay] = useState(false)
 
-  const takePhoto = () => {
-    if (document.getElementById('video') == undefined)
-      return;
-    var canvas = document.createElement('canvas');
-
-    canvas.id = "CursorLayer";
-    canvas.width = 1224;
-    canvas.height = 768;
-    canvas.style.zIndex = 8;
-    canvas.style.position = "absolute";
-    canvas.style.border = "1px solid";
-    canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
-   	let image_data_url = canvas.toDataURL('image/jpeg');
-    
-    let image_base64 = canvas.toDataURL().replace(/^data:image\/png;base64,/, "");
-
-    var blobBin = atob(image_data_url.split(',')[1]);
-    var array = [];
-    for(var i = 0; i < blobBin.length; i++) {
-        array.push(blobBin.charCodeAt(i));
-    }
-    var file=new Blob([new Uint8Array(array)], {type: 'image/png'});
-    const customHeader = {
-      headers: {
-        // Authorization: `Bearer ${getLocalStorageToken()}`,
-        "Content-Type": 'multipart/form-data',
-      },
-    };
-
-    var formData = new FormData();
-    var txt = JSON.stringify(image_base64)
-    //alert(txt)
-    formData.append("face", file);
-    formData.append("from", "frontend");
-  
-    axios.post(BASE_URL, formData, customHeader).then(response => {
-      setVerdict(response.data)
-      
-    }).catch(error=>{
-      console.log(error)
-    })
-  }
 
   var drawnFace = null;
 

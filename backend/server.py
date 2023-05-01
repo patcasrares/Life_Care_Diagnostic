@@ -6,25 +6,6 @@ from sound import diagnostic_sound
 from face import diagnostic_face
 
 
-from PIL import Image
-from sklearn.linear_model import LogisticRegression
-import librosa
-from numpy import asarray
-import numpy as np
-import os
-import keras
-from keras.layers import Dense, Conv2D, BatchNormalization, Activation
-from keras.layers import AveragePooling2D, Input, Flatten
-from keras.callbacks import ModelCheckpoint, LearningRateScheduler
-from keras.callbacks import ReduceLROnPlateau
-from keras.preprocessing.image import ImageDataGenerator
-from keras.regularizers import l2
-from keras import backend as K
-from keras.models import Model
-from keras.datasets import cifar10
-import numpy as np
-import os
-from keras.utils import np_utils
 import pickle
 
 
