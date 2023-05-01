@@ -1,4 +1,7 @@
+/* eslint-disable no-unused-vars */
+import React from 'react';
 import axios from 'axios'
+//import 'jsdom-global/register';
 import { useState } from 'react';
 import SidebarCategory from '../components/sidebarCategory';
 
@@ -11,18 +14,6 @@ function App() {
   const BASE_URL = "http://localhost:5000/sound"
   const [sound, setSound] = useState(null)
   const [verdict, setVerdict] = useState('')
-
-  var opts = {
-    // use named function
-    onstart: function onStart() {
-        console.log('Recorder is started');
-    },
-    onstop: function onStop(Blob) {
-        videoElement.src = URL.createObjectURL(blob);
-    },
-    // 'audio/wav' or 'audio/mp3'
-    mimeType: 'audio/wav',
-  };
 
   const [audio, setAudio] = useState(false);
   
@@ -46,31 +37,6 @@ function App() {
       console.log(error)
     })
   }
-
-  const downloadBlobAsFile = function(data, filename){
-    const contentType = 'application/octet-stream';
-    if(!data) {
-        console.error(' No data')
-        return;
-    }
-
-    if(!filename) filename = 'filetodonwload.txt'
-
-    if(typeof data === "object"){
-        data = JSON.stringify(data, undefined, 4)
-    }
-
-    var blob = new Blob([data], {type: contentType}),
-        e    = document.createEvent('MouseEvents'),
-        a    = document.createElement('a')
-
-    a.download = filename
-    a.href = window.URL.createObjectURL(blob)
-    a.dataset.downloadurl =  [contentType, a.download, a.href].join(':')
-    e.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null)
-    a.dispatchEvent(e)
-  }
-
 
   const makeAudio = (startRecording, stopRecording) => {
     if (!audio) {

@@ -1,4 +1,5 @@
 import axios from 'axios'
+import React from 'react';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import Popup from '../components/popup';
@@ -7,11 +8,12 @@ import SidebarCategory from '../components/sidebarCategory';
 import { useContextualRouting } from 'next-use-contextual-routing' 
 
 function App() {
+  
 
   const BASE_URL = "http://localhost:5000/survivalChances"
-  const {makeContextualHref,returnHref} = useContextualRouting()
-  const [image, setImage] = useState(null)
   const router = useRouter();
+  const {makeContextualHref,returnHref} = useContextualRouting()
+  const [image, setImage] = useState(null);
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [age, setAge] = useState('')

@@ -1,3 +1,4 @@
+import React from 'react';
 import { useRouter } from "next/router"
 import jsPDF from 'jspdf'
 
@@ -35,7 +36,7 @@ export default function PopupSurvival({returnHref, firstName, lastName, verdict}
                 </span>
               </button>
             </div>
-            <div class="p-3">
+            <div  class="p-3">
               <p class="my-4 text-gray-500 text-lg leading-relaxed">
                 {result}
               </p>

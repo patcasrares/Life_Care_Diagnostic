@@ -1,3 +1,4 @@
+import React from "react";
 import { useRouter } from "next/router"
 import jsPDF from 'jspdf'
 
@@ -40,7 +41,7 @@ export default function Popup({returnHref, firstName, lastName, verdict}) {
           <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
             <div class="flex items-start justify-between p-5 border-b border-solid border-gray-200 rounded-t">
               <h3 class="text-3xl font-semibold">
-                Result
+                Result {verdict}
               </h3>
               <button
                 class="p-1 ml-auto bg-transparent border-0 text-gray-300 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"

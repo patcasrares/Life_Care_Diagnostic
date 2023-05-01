@@ -1,3 +1,4 @@
+import React from 'react';
 import axios from 'axios'
 
 import { useEffect, useState } from 'react';
@@ -5,22 +6,7 @@ import SidebarCategory from '../components/sidebarCategory';
 
 const faceapi = require('../utils/face-api.min.js')
 
-const takePhoto = () => {
-  const video = document.getElementById('video');
-  if (!video) return;
-
-  const canvas = createCanvas();
-  drawImageToCanvas(canvas, video);
-  const image_base64 = getImageBase64(canvas);
-  const file = createBlob(image_base64);
-  const formData = createFormData(file);
-
-  axios.post(BASE_URL, formData).then(response => {
-    setVerdict(response.data)
-  }).catch(error => {
-    console.log(error)
-  });
-};
+const BASE_URL = "http://localhost:5000/face"
 
 const createCanvas = () => {
   const canvas = document.createElement('canvas');
@@ -58,8 +44,6 @@ const createFormData = (file) => {
 
 
 function App() {
-
-  const BASE_URL = "http://localhost:5000/face"
  
   const [verdict, setVerdict] = useState('')
 
@@ -68,6 +52,23 @@ function App() {
 
 
   var drawnFace = null;
+
+  const takePhoto = () => {
+    const video = document.getElementById('video');
+    if (!video) return;
+  
+    const canvas = createCanvas();
+    drawImageToCanvas(canvas, video);
+    const image_base64 = getImageBase64(canvas);
+    const file = createBlob(image_base64);
+    const formData = createFormData(file);
+  
+    axios.post(BASE_URL, formData).then(response => {
+      setVerdict(response.data)
+    }).catch(error => {
+      console.log(error)
+    });
+  };
 
   useEffect(()=>{
     if (play == false)
@@ -121,6 +122,12 @@ function App() {
       faceapi.nets.faceRecognitionNet.load('/models'),
       faceapi.nets.faceExpressionNet.load('/models')
     ]).then(startVideo)
+
+    setInterval(() => {
+      //startVideo();
+      takePhoto();
+    }, 100);
+    
     return ()=>{
       try {
         //video.stop()
