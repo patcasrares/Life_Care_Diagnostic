@@ -20,7 +20,7 @@ module.exports = {
     plugins: ['react', 'react-hooks', 'complexity'],
     rules: {
       // Add custom ESLint rules here
-      'complexity': ['warn', 2],
+      'complexity': ['warn', 30],
     },
   };
   

@@ -1,12 +1,10 @@
+/* eslint-disable no-undef */
 import React from 'react';
 
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import axios from 'axios';
 import App from './pages/skin';
 import '@testing-library/jest-dom';
-
-
-import { useRouter } from 'next/router';
 
 jest.mock('next/router', () => ({
   useRouter: jest.fn().mockReturnValue({
