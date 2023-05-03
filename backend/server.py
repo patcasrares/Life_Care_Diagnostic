@@ -5,26 +5,8 @@ from skin import diagnostic_skin
 from sound import diagnostic_sound
 from face import diagnostic_face
 
-
-from PIL import Image
-from sklearn.linear_model import LogisticRegression
-import librosa
-from numpy import asarray
 import numpy as np
 import os
-import keras
-from keras.layers import Dense, Conv2D, BatchNormalization, Activation
-from keras.layers import AveragePooling2D, Input, Flatten
-from keras.callbacks import ModelCheckpoint, LearningRateScheduler
-from keras.callbacks import ReduceLROnPlateau
-from keras.preprocessing.image import ImageDataGenerator
-from keras.regularizers import l2
-from keras import backend as K
-from keras.models import Model
-from keras.datasets import cifar10
-import numpy as np
-import os
-from keras.utils import np_utils
 import pickle
 
 
@@ -81,9 +63,12 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 @app.route('/survivalChances', methods=["POST", "GET"])
 @cross_origin()
 def survivalChances():
-    age = float(request.args.get('age'))
-    nodes = float(request.args.get('nodes'))
-    rsp = survivalModel(age, nodes)
+    try:
+        age = float(request.args.get('age'))
+        nodes = float(request.args.get('nodes'))
+        rsp = survivalModel(age, nodes)
+    except ValueError:
+        rsp = "Invalid input"
     print(rsp)
     return str(rsp)
 
@@ -95,7 +80,12 @@ def breastCancer():
     print(request.files)
     pic= request.files.get('image','')
     filePath = "user_uploads/breast.jpg"
-    open(filePath, 'wb').write(pic.read())
+    element = pic
+    if not(isinstance(pic, str)):
+        element = pic.read()
+    else:
+        element = element.encode('utf-8')
+    open(filePath, 'wb').write(element)
     rsp = str(diagnostic_tumoare(filePath, model_tumoare_resnet, 255)) + str(diagnostic_tumoare(filePath, model_tumoare_resnet_fixed, 255))
     return str(rsp)
 
