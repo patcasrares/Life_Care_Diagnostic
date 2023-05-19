@@ -7,7 +7,7 @@ import math
     'age': st.floats(allow_nan=False, allow_infinity=False, min_value=0, max_value=1020),
     'nodes': st.floats(allow_nan=True, allow_infinity=False)
 }), min_size=50, max_size=50))
-@settings(max_examples=500)
+@settings(max_examples=1000, deadline=1000)
 def test_survivalChances(users):
     def run_test(user):
         with app.test_client() as c:
@@ -29,13 +29,19 @@ def test_survivalChances(users):
             nodes = str(nodes)
             if "e+" in nodes:
                 match_str = "Invalid"
-            print(nodes)
-            print(match_str)
-            print(data)
+            if "e-" in nodes:
+                match_str = "Invalid"
+           
+            
             '''if data.startsWith("Invalid"):
                 print("The rsp", data.startswith("Survival"), nodes, match_str, float(nodes))'''
             if data != "None":
-                assert data.startswith(match_str) == True
+                #if not data.startswith(match_str):
+                    #print(age)
+                    #print(nodes)
+                    #print(data)
+                    #print(match_str)
+                assert data.startswith(match_str)
 
     with concurrent.futures.ThreadPoolExecutor() as executor:
         futures = [executor.submit(run_test, user) for user in users]

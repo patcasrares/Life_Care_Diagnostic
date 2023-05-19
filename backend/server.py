@@ -69,7 +69,7 @@ def survivalChances():
         rsp = survivalModel(age, nodes)
     except ValueError:
         rsp = "Invalid input"
-    print(rsp)
+    #print(rsp)
     return str(rsp)
 
 

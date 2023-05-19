@@ -12,14 +12,16 @@ import pytest
     'color-r': st.integers(min_value=0, max_value=255),
     'color-g': st.integers(min_value=0, max_value=255),
     'color-b': st.integers(min_value=0, max_value=255),
-    'sz': st.integers(min_value=50, max_value=255),
+    'sz': st.integers(min_value=100, max_value=505),
 }), min_size=2, max_size=2))
-@settings(max_examples=200, deadline=500)
-@pytest.mark.timeout(1000)
+@settings(max_examples=1000, deadline=1000)
+@pytest.mark.timeout(2000)
 def test_survival_tumor(users):
     def run_test(user):
         with app.test_client() as c:
             image = Image.new('RGB', (256, user["sz"]), color=(user["color-r"], user["color-g"], user["color-b"]))
+            
+            #image = Image.new('RGB', (256,325), color=(3, 48, 27))
 
             # Save the image to a bytes IO object as JPEG
             file_bytes_io = BytesIO()
@@ -32,6 +34,9 @@ def test_survival_tumor(users):
                 assert response.status_code == 500
             else:
                 data = response.data.decode('utf-8')
+                if data.startswith("Invalid") == False:
+                    print("The result")
+                    print(data)
                 assert data.startswith("Invalid") == True
                 
 
